@@ -1,27 +1,47 @@
 # BankPortalAngular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.4.
+## Prerequisites
 
-## Development server
+Install following dependencies beforehand.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Docker, docker-compose:
+[Docker home page](https://docs.docker.com/get-docker/)
+2. Git
 
-## Code scaffolding
+## Build and start docker containers
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run this command to build base image and start container
 
-## Build
+```bash
+./build-and-start.sh
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run this command to build image, you need to re-build image if package.json change
 
-## Running unit tests
+```bash
+docker build -t bank-angular:1.0 .
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run this command to start project without rebuild bank-angular image
 
-## Running end-to-end tests
+```bash
+docker-compose up -d
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Stop docker-compose containers
 
-## Further help
+Run this command to stop project
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+docker-compose stop
+```
+
+## Remove docker-compose containers
+
+Run this command to stops containers and removes containers, networks, volumes, and images created by up
+
+```bash
+docker-compose down
+```
+
+After container was started, go http://localhost:4200/ to see Bank-portal interface

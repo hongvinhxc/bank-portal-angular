@@ -1,0 +1,11 @@
+version: "3.5"
+services:
+  angular:
+    image: bank-angular:1.0
+    container_name: bank-angular-container
+    volumes:
+      - ".:/usr/src/app"
+    ports:
+      - "4200:4200"
+    command: >
+      bash -c "ng serve --host 0.0.0.0 --port 4200 --poll 1"
