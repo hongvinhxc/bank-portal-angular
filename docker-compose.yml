@@ -5,6 +5,7 @@ services:
     container_name: bank-angular-container
     volumes:
       - ".:/usr/src/app"
+      - "/usr/src/app/node_modules"
     ports:
       - "4200:4200"
     command: >
