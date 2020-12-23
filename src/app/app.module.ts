@@ -10,6 +10,7 @@ import { AppRoutes } from './app.routes';
 import { RouterModule } from '@angular/router';
 import { ListAccountComponent } from './pages/list-account/list-account.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { LoginComponent } from './pages/login/login.component';
     ModalComponent,
     HeaderComponent,
     LoginComponent,
-    ListAccountComponent
+    ListAccountComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,

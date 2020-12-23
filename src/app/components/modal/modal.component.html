@@ -1,1 +1,15 @@
-<p>modal works!</p>
+<div *ngIf="show" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span (click)="closeModal($event)" class="close">&times;</span>
+      <h2><ng-content select=".modal-title"></ng-content></h2>
+    </div>
+    <div class="modal-body">
+      <ng-content select=".modal-content"></ng-content>
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
+  </div>
+
+</div>

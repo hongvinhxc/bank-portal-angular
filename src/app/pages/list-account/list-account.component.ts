@@ -19,27 +19,27 @@ export class ListAccountComponent implements OnInit {
     {
       field: 'balance',
       label: 'balance',
-      width: '100px',
+      width: '50px',
     },
     {
       field: 'firstname',
       label: 'firstname',
-      width: '100px',
+      width: '50px',
     },
     {
       field: 'lastname',
       label: 'lastname',
-      width: '100px',
+      width: '50px',
     },
     {
       field: 'age',
       label: 'age',
-      width: '100px',
+      width: '30px',
     },
     {
       field: 'gender',
       label: 'gender',
-      width: '100px',
+      width: '30px',
     },
     {
       field: 'address',
@@ -49,7 +49,7 @@ export class ListAccountComponent implements OnInit {
     {
       field: 'employer',
       label: 'employer',
-      width: '100px',
+      width: '50px',
     },
     {
       field: 'email',
@@ -59,12 +59,12 @@ export class ListAccountComponent implements OnInit {
     {
       field: 'city',
       label: 'city',
-      width: '100px',
+      width: '50px',
     },
     {
       field: 'state',
       label: 'state',
-      width: '100px',
+      width: '50px',
     },
   ];
   isLoading = false;
@@ -72,19 +72,16 @@ export class ListAccountComponent implements OnInit {
   page = 1;
   total = 0;
   mode = 'paging';
-  pageSize = 10;
+  pageSize = 20;
   pageSizeOptions = [10, 20, 50, 100];
+
+  showModal = false;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private accountService: AccountService) {}
 
   ngOnInit() {
-    this.accountService
-      .getAll({ pageIndex: this.page, pageSize: this.pageSize })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        this.data = data.data;
-      });
+    this.getAccounts(this.page, this.pageSize);
   }
 
   ngOnDestroy() {
@@ -93,5 +90,36 @@ export class ListAccountComponent implements OnInit {
     this.destroy$.unsubscribe();
   }
 
+  ngDoCheck() {}
+
   onLoad(event) {}
+
+  onShowModal(event) {
+    this.showModal = true;
+  }
+
+  onCloseModal(event) {
+    this.showModal = false;
+  }
+
+  onPageSizeChange(size) {
+    this.getAccounts(1, size);
+  }
+  onPageChange(event) {
+    this.getAccounts(event, this.pageSize);
+  }
+
+  getAccounts(pageIndex, pageSize) {
+    this.isLoading = true;
+    this.accountService
+      .getAll({ pageIndex, pageSize })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.data = data.data;
+        this.total = data.total;
+        this.page = data.pageIndex;
+        this.pageSize = data.pageSize;
+        this.isLoading = false;
+      });
+  }
 }

@@ -1,0 +1,23 @@
+<div class="pagination-wrapper">
+  <div class="pagination">
+    <a href="#" (click)="pageChange(page - 1)">&laquo;</a>
+    <ng-container *ngFor="let p of pageSelect">
+      <a href="#" (click)="pageChange(p)" [class]="page == p ? 'active' : ''">{{
+        p
+      }}</a>
+    </ng-container>
+    <a href="#" (click)="pageChange(page + 1)">&raquo;</a>
+  </div>
+  <div class="select">
+    Page size
+    <select (change)="pageSizeChange($event)">
+      <option
+        *ngFor="let item of sizeOption"
+        [value]="item"
+        [selected]="item == size"
+      >
+        {{ item }}
+      </option>
+    </select>
+  </div>
+</div>

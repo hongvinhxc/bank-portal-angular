@@ -1,32 +1,35 @@
-<div class="table-wrapper">
-  <table>
-    <thead>
-      <tr>
-        <th scope="col" width="50px">STT</th>
-        <th
-          *ngFor="let column of columns"
-          scope="col"
-          [width]="column.width || 1"
-        >
-          {{ column.label }}
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of rows; let i = index">
-        <td data-label="STT" width="50px" [class]="i % 2 == 1 ? 'gray' : ''">
-          {{ i + 1 }}
-        </td>
-        <td
-          *ngFor="let column of columns"
-          cl
-          [attr.data-label]="column.label"
-          [width]="column.width || 1"
-          [class]="i % 2 == 1 ? 'gray' : ''"
-        >
-          {{ row[column.field] }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="table-container">
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" width="10px">STT</th>
+          <th
+            *ngFor="let column of columns"
+            scope="col"
+            [width]="column.width || 1"
+          >
+            {{ column.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of rows; let i = index">
+          <td data-label="STT" width="10px" [class]="i % 2 == 1 ? 'gray' : ''">
+            {{ i + 1 }}
+          </td>
+          <td
+            *ngFor="let column of columns"
+            cl
+            [attr.data-label]="column.label"
+            [width]="column.width || 1"
+            [class]="i % 2 == 1 ? 'gray' : ''"
+          >
+            {{ row[column.field] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="isLoading" class="loading"></div>
 </div>
