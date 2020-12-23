@@ -28,3 +28,12 @@
 .spacer {
   flex: 1;
 }
+
+.logout-btn {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
+}

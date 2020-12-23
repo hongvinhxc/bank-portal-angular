@@ -1,4 +1,4 @@
-import { Column } from './../../modals/column.model';
+import { Column } from '../../models/column.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({

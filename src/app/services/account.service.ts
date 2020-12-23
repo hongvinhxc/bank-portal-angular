@@ -1,68 +1,57 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { Page } from '../models/page.model';
 import { Account } from '../models/account.model';
-import { environment } from 'src/environments/environment';
-import { httpHeader } from '../helpers/utils';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AccountService {
-  private baseUrl: string = environment.api_url + 'accounts';
-
-  constructor(private httpClient: HttpClient) {}
+export class AccountService extends BaseService {
+  constructor(router: Router, private httpClient: HttpClient) {
+    super(router);
+    this.baseUrl = this.baseUrl + 'accounts';
+  }
 
   getAll(queryParams: Page): Observable<any> {
     return this.httpClient
       .get<any>(
         this.baseUrl +
           `?pageIndex=${queryParams.pageIndex}&pageSize=${queryParams.pageSize}`,
-        httpHeader
+        this.getHttpHeader()
       )
       .pipe(retry(3), catchError(this.handleError));
   }
 
   getById(id: string): Observable<any> {
     return this.httpClient
-      .get<Account>(this.baseUrl + `/${id}`, httpHeader)
+      .get<Account>(this.baseUrl + `/${id}`, this.getHttpHeader())
       .pipe(retry(3), catchError(this.handleError));
   }
 
   addAccount(data: Account): Observable<any> {
     return this.httpClient
-      .post<any>(this.baseUrl, JSON.stringify(data), httpHeader)
+      .post<any>(this.baseUrl, JSON.stringify(data), this.getHttpHeader())
       .pipe(retry(3), catchError(this.handleError));
   }
 
   updateAccount(id: string, data: Account): Observable<any> {
     return this.httpClient
-      .put<any>(this.baseUrl + '/' + id, JSON.stringify(data), httpHeader)
+      .put<any>(
+        this.baseUrl + '/' + id,
+        JSON.stringify(data),
+        this.getHttpHeader()
+      )
       .pipe(retry(3), catchError(this.handleError));
   }
 
   deleteAccount(id: string): Observable<any> {
     return this.httpClient
-      .delete<any>(this.baseUrl + '/' + id, httpHeader)
+      .delete<any>(this.baseUrl + '/' + id, this.getHttpHeader())
       .pipe(retry(3), catchError(this.handleError));
-  }
-
-  handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Client-side errors
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Server-side errors
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    window.alert(errorMessage);
-    return throwError(errorMessage);
   }
 }

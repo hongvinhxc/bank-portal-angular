@@ -2,16 +2,5 @@
   <app-header></app-header>
 </div>
 <div class="content" role="main">
-  <my-datatable
-    (onLoad)="onLoad($event)"
-    [columns]="listColumns"
-    [isLoading]="isLoading"
-    [rows]="data"
-    [activePage]="page"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    [totalRows]="total"
-    [pagingMode]="mode"
-  >
-  </my-datatable>
+  <router-outlet></router-outlet>
 </div>
