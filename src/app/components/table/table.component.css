@@ -9,46 +9,37 @@ body {
   line-height: 1.25;
 }
 
-.table-container {
-  position: relative;
-}
-
 .gray {
-  background-color:#efefef;
-}
-
-.table-head {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
+  background-color: #efefef;
 }
 
 table {
-  border: 1px solid #ccc;
   border-collapse: collapse;
   margin: 0;
   padding: 0;
   width: 100%;
   table-layout: fixed;
-}
-
-table caption {
-  font-size: 1.5em;
-  margin: 0.5em 0 0.75em;
+  border-collapse: collapse;
 }
 
 table tr {
   background-color: #f8f8f8;
-  border: 1px solid #ddd;
   padding: 0.35em;
+}
+
+table tbody tr {
+  border: 1px solid #ddd;
 }
 
 table th,
 table td {
   padding: 0.625em;
   text-align: center;
-  word-break: break-all;
+}
+
+table td {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 table th {
@@ -58,25 +49,24 @@ table th {
 }
 
 @media screen and (min-width: 600px) {
-  .table-container {
-    padding-top: calc(42px + 0.85em);
-  }
-
-  .table-body {
+  .table-wrapper {
     position: relative;
+    border: 1px solid #ccc;
     max-height: 585px;
-    overflow: auto;
+    overflow-y: auto;
   }
 
-  .table-head th {
-    padding-top: 18px;
-    padding-bottom: 18px;
+  .table-wrapper th {
+    position: sticky;
+    top: 0;
+    background-color: #ddd;
   }
 
-  .table-body td {
+  .table-wrapper td {
     padding-top: 16px;
     padding-bottom: 16px;
   }
+
 }
 
 @media screen and (max-width: 600px) {
@@ -106,13 +96,10 @@ table th {
     display: block;
     font-size: 0.8em;
     text-align: right;
+    width: 100%;
   }
 
   table td::before {
-    /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
     content: attr(data-label);
     float: left;
     font-weight: bold;

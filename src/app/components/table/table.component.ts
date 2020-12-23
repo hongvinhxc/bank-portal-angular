@@ -1,3 +1,4 @@
+import { Column } from './../../modals/column.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -7,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  @Input() columns: Array<Object>;
+  @Input() columns: Array<Column>;
   @Input() isLoading: boolean;
   @Input() rows: Array<Object>;
   @Input() activePage: number;
