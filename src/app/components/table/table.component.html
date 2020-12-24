@@ -1,9 +1,9 @@
 <div class="table-container">
-  <div class="table-wrapper">
+  <div class="table-wrapper" (scroll)="onScroll($event)">
     <table>
       <thead>
         <tr>
-          <th scope="col" width="25px">STT</th>
+          <th scope="col" width="50px">STT</th>
           <th
             *ngFor="let column of columns"
             scope="col"
@@ -20,8 +20,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let row of rows; let i = index">
-          <td data-label="STT" width="25px" [class]="i % 2 == 1 ? 'gray' : ''">
-            {{ pageSize * (activePage - 1) + i + 1 }}
+          <td data-label="STT" width="50px" [class]="i % 2 == 1 ? 'gray' : ''">
+            {{
+              pagingMode == "paging"
+                ? pageSize * (activePage - 1) + i + 1
+                : i + 1
+            }}
           </td>
           <td
             *ngFor="let column of columns"
@@ -52,8 +56,19 @@
             >
           </td>
         </tr>
+        <tr *ngIf="pagingMode == 'scroll' && maxPage > activePage">
+          <td [attr.colspan]="columns.length + 2">
+            <div class="d-flex align-center justify-center">
+              <div class="loader mr-10"></div>
+              Loading
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
-  <div *ngIf="isLoading" class="loading"></div>
+  <div
+    *ngIf="(isLoading && pagingMode == 'paging') || keywordChangedLoading"
+    class="loading"
+  ></div>
 </div>

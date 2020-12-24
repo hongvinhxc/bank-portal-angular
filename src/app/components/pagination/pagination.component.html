@@ -1,23 +1,37 @@
-<div class="pagination-wrapper">
-  <div class="pagination">
-    <a href="#" (click)="pageChange(page - 1)">&laquo;</a>
-    <ng-container *ngFor="let p of pageSelect">
-      <a href="#" (click)="pageChange(p)" [class]="page == p ? 'active' : ''">{{
-        p
-      }}</a>
-    </ng-container>
-    <a href="#" (click)="pageChange(page + 1)">&raquo;</a>
+<div class="pagination-wrapper d-flex space-between align-center">
+  <div class="d-flex align-center">
+    <label class="switch">
+      <input type="checkbox" (change)="turnScrollModeOn($event)" [checked]="pagingMode == 'scroll' ? true : false " />
+      <span class="slider round"></span>
+    </label>
+    <span class="size-26 ml-10"> Scroll mode </span>
   </div>
-  <div class="select">
-    Page size
-    <select (change)="pageSizeChange($event)">
-      <option
-        *ngFor="let item of sizeOption"
-        [value]="item"
-        [selected]="item == size"
-      >
-        {{ item }}
-      </option>
-    </select>
+  <div *ngIf="pagingMode == 'paging'" class="d-flex align-center">
+    <div class="pagination">
+      <a href="#" (click)="pageChange(page - 1)">&laquo;</a>
+      <ng-container *ngFor="let p of pageSelect">
+        <a
+          href="#"
+          (click)="pageChange(p)"
+          [class]="page == p ? 'active' : ''"
+          >{{ p }}</a
+        >
+      </ng-container>
+      <a href="#" (click)="pageChange(page + 1)">&raquo;</a>
+    </div>
+    <div class="select">
+      Page size
+      <select (change)="pageSizeChange($event)" class="mr-5">
+        <option
+          *ngFor="let item of sizeOption"
+          [value]="item"
+          [selected]="item == size"
+        >
+          {{ item }}
+        </option>
+      </select>
+      Total: {{ total }}
+    </div>
   </div>
+  <div *ngIf="pagingMode == 'scroll'">Total: {{ total }}</div>
 </div>

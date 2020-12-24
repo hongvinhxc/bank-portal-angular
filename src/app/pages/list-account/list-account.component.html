@@ -1,7 +1,7 @@
 <div class="table-menu">
   <div class="search-container">
-    <input class="search-input" />
-    <button class="button ml-10">Search</button>
+    <input class="search-input" placeholder="What are you looking for?" (keyup.enter)="onSearch(inputSearch)" #inputSearch />
+    <button class="button ml-10" (click)="onSearch(inputSearch)">Search</button>
   </div>
   <div class="button-group">
     <button class="button" (click)="onAddAccount()">Thêm mới</button>
@@ -11,16 +11,17 @@
   (onLoad)="onLoad($event)"
   [columns]="listColumns"
   [isLoading]="isLoading"
+  [keywordChangedLoading]="keywordChangedLoading"
   [rows]="data"
   [activePage]="page"
   [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
   [totalRows]="total"
   [pagingMode]="mode"
   (onViewRow)="onViewRow($event)"
   (onEditRow)="onEditRow($event)"
   (onRemoveRow)="onRemoveRow($event)"
   (onReload)="reloadTable()"
+  (onLoadMore)="loadMoreWhenScroll()"
 >
 </my-datatable>
 <v-pagination
@@ -30,6 +31,8 @@
   (onPageChange)="onPageChange($event)"
   [total]="total"
   [page]="page"
+  [pagingMode]="mode"
+  (onModeScrollOn)="onModeScrollOn($event)"
 ></v-pagination>
 <v-modal
   [type]="modalType"

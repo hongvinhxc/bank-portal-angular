@@ -9,18 +9,22 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class TableComponent implements OnInit {
   @Input() columns: Array<Column>;
   @Input() isLoading: boolean;
+  @Input() keywordChangedLoading: boolean;
   @Input() rows: Array<Object>;
   @Input() activePage: number;
   @Input() totalRows: number;
   @Input() pagingMode: string;
   @Input() pageSize: number;
-  @Input() pageSizeOptions: Array<number>;
 
-  @Output() onLoad = new EventEmitter();
+  @Output() onLoadMore = new EventEmitter();
   @Output() onViewRow = new EventEmitter();
   @Output() onEditRow = new EventEmitter();
   @Output() onRemoveRow = new EventEmitter();
   @Output() onReload = new EventEmitter();
+
+  withinInterval: boolean;
+
+  maxPage: number = 1;
 
   constructor() {}
 
@@ -40,5 +44,27 @@ export class TableComponent implements OnInit {
 
   reloadTable() {
     this.onReload.emit();
+  }
+
+  loadMore(e) {
+    if (this.withinInterval) return;
+    this.withinInterval = true;
+    setTimeout(() => {
+      this.onLoadMore.emit();
+      this.withinInterval = false;
+    }, 1000);
+  }
+
+  onScroll(e) {
+    if (this.pagingMode == 'paging') return;
+    this.maxPage = Math.ceil(this.totalRows / this.pageSize);
+    if (this.activePage == this.maxPage) return;
+    let bottomWrap = e.target.getBoundingClientRect().bottom;
+    let bottomTable = e.target.querySelector('table').getBoundingClientRect()
+      .bottom;
+    // this.loadMore(e);
+    if (bottomTable - bottomWrap < 200) {
+      this.loadMore(e);
+    }
   }
 }

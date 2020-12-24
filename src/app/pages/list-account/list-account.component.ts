@@ -68,7 +68,8 @@ export class ListAccountComponent implements OnInit {
     },
   ];
   isLoading = false;
-  data: Array<object>;
+  keywordChangedLoading = false;
+  data: Array<object> = [];
   page = 1;
   total = 0;
   mode = 'paging';
@@ -80,6 +81,9 @@ export class ListAccountComponent implements OnInit {
   modalType = 'add';
   rowSelected: object;
   confirmDelete = false;
+
+  keyword = '';
+  oldKeyword = '';
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private accountService: AccountService) {}
@@ -114,7 +118,7 @@ export class ListAccountComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
-    this.rowSelected = {}
+    this.rowSelected = {};
   }
 
   onPageSizeChange(size) {
@@ -126,15 +130,24 @@ export class ListAccountComponent implements OnInit {
 
   getAccounts(pageIndex, pageSize) {
     this.isLoading = true;
+    if (this.oldKeyword != this.keyword) {
+      this.keywordChangedLoading = true;
+    }
     this.accountService
-      .getAll({ pageIndex, pageSize })
+      .getAll({ pageIndex, pageSize, keyword: this.keyword })
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        this.data = data.data;
+        if (this.mode == 'paging' || this.oldKeyword != this.keyword) {
+          this.data = data.data;
+        } else {
+          this.data = [...this.data, ...data.data];
+        }
+        this.oldKeyword = this.keyword;
         this.total = data.total;
         this.page = data.pageIndex;
         this.pageSize = data.pageSize;
         this.isLoading = false;
+        this.keywordChangedLoading = false;
       });
   }
 
@@ -206,8 +219,19 @@ export class ListAccountComponent implements OnInit {
   }
 
   reloadTable() {
-    console.log(123);
-
     this.getAccounts(this.page, this.pageSize);
+  }
+
+  onSearch(e) {
+    this.keyword = e.value;
+    this.getAccounts(1, this.pageSize);
+  }
+
+  loadMoreWhenScroll() {
+    this.getAccounts(this.page + 1, this.pageSize);
+  }
+
+  onModeScrollOn(checked) {
+    this.mode = checked ? 'scroll' : 'paging';
   }
 }

@@ -22,12 +22,28 @@ input {
   box-sizing: border-box;
 }
 
+input:read-only {
+  pointer-events: none;
+}
+
 .d-flex {
   display: flex;
 }
 
 .flex-end {
   justify-content: flex-end;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .mr-1 {
@@ -48,6 +64,22 @@ input {
 
 .mr-5 {
   margin-right: 5px !important;
+}
+
+.mr-10 {
+  margin-right: 5px !important;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.size-26 {
+  font-size: 26px;
 }
 
 /* Add google icon */

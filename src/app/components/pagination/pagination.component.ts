@@ -10,8 +10,10 @@ export class PaginationComponent implements OnInit {
   @Input() size: number;
   @Input() total: number;
   @Input() page: number;
+  @Input() pagingMode: string;
   @Output() onPageSizeChange = new EventEmitter();
   @Output() onPageChange = new EventEmitter();
+  @Output() onModeScrollOn = new EventEmitter();
 
   maxPage: number;
   pageSelect: Array<number>;
@@ -23,7 +25,9 @@ export class PaginationComponent implements OnInit {
   ngDoCheck() {
     this.maxPage = Math.ceil(this.total / this.size);
     this.pageSelect = [];
-    if (this.page < 3) {
+    if (this.maxPage < 1) {
+      this.pageSelect = [1];
+    } else if (this.page < 3) {
       this.pageSelect.push(...[1, 2]);
       for (let i = 3; i < 6; i++) {
         if (i < this.maxPage) this.pageSelect.push(i);
@@ -48,5 +52,9 @@ export class PaginationComponent implements OnInit {
     if (p > this.maxPage) p = this.maxPage;
     if (p == this.page) return;
     this.onPageChange.emit(p);
+  }
+
+  turnScrollModeOn(e) {
+    this.onModeScrollOn.emit(e.target.checked);
   }
 }

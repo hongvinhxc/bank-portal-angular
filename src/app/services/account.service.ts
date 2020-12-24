@@ -21,7 +21,7 @@ export class AccountService extends BaseService {
     return this.httpClient
       .get<any>(
         this.baseUrl +
-          `?pageIndex=${queryParams.pageIndex}&pageSize=${queryParams.pageSize}`,
+          `?pageIndex=${queryParams.pageIndex}&pageSize=${queryParams.pageSize}&keyword=${queryParams.keyword}`,
         this.getHttpHeader()
       )
       .pipe(retry(3), catchError(this.handleError));
