@@ -219,10 +219,16 @@ export class ListAccountComponent implements OnInit {
   }
 
   reloadTable() {
+    if (this.mode == 'scroll') {
+      this.oldKeyword = "" + Date.now();
+    }
     this.getAccounts(this.page, this.pageSize);
   }
 
   onSearch(e) {
+    if (this.mode == 'scroll' && this.keyword == e.value) {
+      this.oldKeyword = "" + Date.now();
+    }
     this.keyword = e.value;
     this.getAccounts(1, this.pageSize);
   }
