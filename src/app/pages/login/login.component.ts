@@ -1,3 +1,4 @@
+import { FormControl, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -9,8 +10,10 @@ import { setToken } from '../../helpers/utils';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
-  password: string = '';
+  loginForm = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+  });
   error: string;
   constructor(private userService: UserService, private router: Router) {}
 
@@ -22,10 +25,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.userService
-      .login({
-        username: this.username,
-        password: this.password,
-      })
+      .login(this.loginForm.value)
       .subscribe((res: any) => {
         if (res.success) {
           setToken(res.token);
@@ -34,13 +34,5 @@ export class LoginComponent implements OnInit {
           this.error = res.message;
         }
       });
-  }
-
-  onEnter(e) {
-    if (e.name == 'password') {
-      e.focus();
-    } else {
-      e.click();
-    }
   }
 }

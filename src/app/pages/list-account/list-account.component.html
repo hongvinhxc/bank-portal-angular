@@ -1,4 +1,12 @@
-<button (click)="onShowModal($event)">Thêm mới</button>
+<div class="table-menu">
+  <div class="search-container">
+    <input class="search-input" />
+    <button class="button ml-10">Search</button>
+  </div>
+  <div class="button-group">
+    <button class="button" (click)="onAddAccount()">Thêm mới</button>
+  </div>
+</div>
 <my-datatable
   (onLoad)="onLoad($event)"
   [columns]="listColumns"
@@ -9,6 +17,10 @@
   [pageSizeOptions]="pageSizeOptions"
   [totalRows]="total"
   [pagingMode]="mode"
+  (onViewRow)="onViewRow($event)"
+  (onEditRow)="onEditRow($event)"
+  (onRemoveRow)="onRemoveRow($event)"
+  (onReload)="reloadTable()"
 >
 </my-datatable>
 <v-pagination
@@ -19,7 +31,18 @@
   [total]="total"
   [page]="page"
 ></v-pagination>
-<v-modal [show]="showModal" (onClose)="onCloseModal($event)">
-  <div class="modal-title">Modal</div>
-  <div class="modal-content">Modal content</div>
+<v-modal
+  [type]="modalType"
+  [show]="showModal"
+  (onClose)="closeModal()"
+  (onSave)="onSave($event)"
+  (onEdit)="changeViewToEdit()"
+  [data]="rowSelected"
+>
 </v-modal>
+<v-confirm
+  (onClose)="closeConfirmDelete()"
+  (onDelete)="deleteAccount($event)"
+  [account]="rowSelected"
+  [show]="confirmDelete"
+></v-confirm>

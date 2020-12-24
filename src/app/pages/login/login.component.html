@@ -1,4 +1,4 @@
-<form class="animate">
+<form class="animate" [formGroup]="loginForm" (ngSubmit)="onLogin()">
   <div class="container">
     <label for="username"><b>Username</b></label>
     <input
@@ -7,9 +7,7 @@
       placeholder="Enter Username"
       name="username"
       required
-      [value]="username"
-      (input)="setValueInput(inputUsername)"
-      (keyup.enter)="onEnter(inputPassword)"
+      formControlName="username"
     />
 
     <label for="password"><b>Password</b></label>
@@ -19,11 +17,11 @@
       placeholder="Enter Password"
       name="password"
       required
-      [value]="password"
-      (input)="setValueInput(inputPassword)"
-      (keyup.enter)="onEnter(buttonLogin)"
+      formControlName="password"
     />
-    <h4 *ngIf="error" style="color: red;">{{error}}</h4>
-    <div #buttonLogin name="buttonLogin" class="login" (click)="onLogin()">Login</div>
+    <h4 *ngIf="error" style="color: red">{{ error }}</h4>
+    <button #buttonLogin name="buttonLogin" class="login button" [disabled]="!loginForm.valid">
+      Login
+    </button>
   </div>
 </form>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { removeToken } from '../../helpers/utils';
+import { parseToken, removeToken } from '../../helpers/utils';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,6 +8,7 @@ import { removeToken } from '../../helpers/utils';
 })
 export class HeaderComponent implements OnInit {
   showLogout = true;
+  username: string;
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
@@ -18,6 +19,8 @@ export class HeaderComponent implements OnInit {
     } else {
       this.showLogout = true;
     }
+    let payload: any = parseToken();
+    this.username = payload?.username;
   }
 
   onLogout() {

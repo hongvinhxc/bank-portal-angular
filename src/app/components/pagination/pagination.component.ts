@@ -22,7 +22,6 @@ export class PaginationComponent implements OnInit {
 
   ngDoCheck() {
     this.maxPage = Math.ceil(this.total / this.size);
-    console.log(this.total);
     this.pageSelect = [];
     if (this.page < 3) {
       this.pageSelect.push(...[1, 2]);

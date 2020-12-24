@@ -77,6 +77,10 @@ export class ListAccountComponent implements OnInit {
 
   showModal = false;
 
+  modalType = 'add';
+  rowSelected: object;
+  confirmDelete = false;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private accountService: AccountService) {}
 
@@ -94,12 +98,23 @@ export class ListAccountComponent implements OnInit {
 
   onLoad(event) {}
 
-  onShowModal(event) {
+  openModal(type, rowSelected = {}) {
+    this.modalType = type;
+    if (type == 'add') {
+      this.rowSelected = {};
+    } else {
+      this.rowSelected = rowSelected;
+    }
     this.showModal = true;
   }
 
-  onCloseModal(event) {
+  changeViewToEdit() {
+    this.modalType = 'edit';
+  }
+
+  closeModal() {
     this.showModal = false;
+    this.rowSelected = {}
   }
 
   onPageSizeChange(size) {
@@ -121,5 +136,78 @@ export class ListAccountComponent implements OnInit {
         this.pageSize = data.pageSize;
         this.isLoading = false;
       });
+  }
+
+  addAccount(info) {
+    this.accountService
+      .addAccount(info)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.closeModal();
+      });
+  }
+
+  updateAccount(id, info) {
+    this.accountService
+      .updateAccount(id, info)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.closeModal();
+        this.reloadTable();
+      });
+  }
+
+  deleteAccount(id) {
+    this.accountService
+      .deleteAccount(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.closeConfirmDelete();
+        this.reloadTable();
+      });
+  }
+
+  onSave(formData) {
+    console.log(formData);
+    if (formData?._id) {
+      this.updateAccount(formData._id, formData);
+    } else {
+      this.addAccount(formData);
+    }
+  }
+
+  onAddAccount() {
+    this.openModal('add');
+  }
+
+  onViewRow(row) {
+    this.openModal('view', row);
+    console.log(row);
+  }
+
+  onRemoveRow(row) {
+    console.log(row);
+    this.confirmDelete = true;
+    this.rowSelected = row;
+    // this.deleteAccount(row._id);
+  }
+
+  closeConfirmDelete() {
+    this.confirmDelete = false;
+    this.rowSelected = {};
+  }
+
+  onEditRow(row) {
+    this.openModal('edit', row);
+    console.log(row);
+  }
+
+  reloadTable() {
+    console.log(123);
+
+    this.getAccounts(this.page, this.pageSize);
   }
 }

@@ -35,13 +35,13 @@ export class AccountService extends BaseService {
 
   addAccount(data: Account): Observable<any> {
     return this.httpClient
-      .post<any>(this.baseUrl, JSON.stringify(data), this.getHttpHeader())
+      .put<any>(this.baseUrl, JSON.stringify(data), this.getHttpHeader())
       .pipe(retry(3), catchError(this.handleError));
   }
 
   updateAccount(id: string, data: Account): Observable<any> {
     return this.httpClient
-      .put<any>(
+      .post<any>(
         this.baseUrl + '/' + id,
         JSON.stringify(data),
         this.getHttpHeader()

@@ -37,3 +37,7 @@
 .logout-btn:hover {
   text-decoration: underline;
 }
+
+.text-i {
+  font-style: italic;
+}

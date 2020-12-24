@@ -52,7 +52,7 @@ table th {
   .table-wrapper {
     position: relative;
     border: 1px solid #ccc;
-    max-height: calc(100vh - 190px);
+    max-height: calc(100vh - 235px);
     overflow-y: auto;
     overflow-x: hidden;
     min-width: 1000px;

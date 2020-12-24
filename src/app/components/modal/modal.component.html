@@ -1,15 +1,66 @@
 <div *ngIf="show" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <span (click)="closeModal($event)" class="close">&times;</span>
-      <h2><ng-content select=".modal-title"></ng-content></h2>
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span (click)="closeModal()" class="close">&times;</span>
+        <h2 *ngIf="type=='add'">Add new account</h2>
+        <h2 *ngIf="type=='edit'">Edit account (id: {{selectedId}} )</h2>
+        <h2 *ngIf="type=='view'">View account (id: {{selectedId}} )</h2>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label class="label"> First Name </label>
+          <input class="input" type="text" formControlName="firstname" required [readOnly]="type == 'view'"/>
+        </div>
+        <div class="input-group">
+          <label class="label"> Last Name </label>
+          <input class="input" type="text" formControlName="lastname" required [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Account Number </label>
+          <input class="input" type="text" formControlName="account_number" required [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Balance </label>
+          <input class="input" type="text" formControlName="balance" required [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Age </label>
+          <input class="input" type="text" formControlName="age" required [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Gender </label>
+          <input class="input" type="text" formControlName="gender" [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Address </label>
+          <input class="input" type="text" formControlName="address" [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Employer </label>
+          <input class="input" type="text" formControlName="employer" [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> Email </label>
+          <input class="input" type="text" formControlName="email" [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> City </label>
+          <input class="input" type="text" formControlName="city" [readOnly]="type == 'view'" />
+        </div>
+        <div class="input-group">
+          <label class="label"> State </label>
+          <input class="input" type="text" formControlName="state" [readOnly]="type == 'view'" />
+        </div>
+      </div>
+      <div class="modal-footer d-flex flex-end">
+        <button *ngIf="type!='view'" class="button" type="submit" [disabled]="!accountForm.valid">
+          Submit
+        </button>
+        <span *ngIf="type=='view'" class="button" (click)="editModal()">
+          Edit
+        </span>
+      </div>
     </div>
-    <div class="modal-body">
-      <ng-content select=".modal-content"></ng-content>
-    </div>
-    <!-- <div class="modal-footer">
-      <h3>Modal Footer</h3>
-    </div> -->
-  </div>
-
+  </form>
 </div>

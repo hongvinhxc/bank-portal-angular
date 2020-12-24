@@ -1,0 +1,15 @@
+.table-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.search-input {
+  padding: 12px 20px;
+  margin: 8px 0;
+}

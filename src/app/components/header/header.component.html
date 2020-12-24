@@ -6,5 +6,6 @@
   />
   <span>Bank Portal</span>
   <div class="spacer"></div>
+  <span *ngIf="username" class="mr-5 text-i">Hello, {{ username }}  | </span>
   <span *ngIf="showLogout" class="logout-btn" (click)="onLogout()">Logout</span>
 </div>

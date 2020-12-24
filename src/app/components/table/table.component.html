@@ -3,7 +3,7 @@
     <table>
       <thead>
         <tr>
-          <th scope="col" width="10px">STT</th>
+          <th scope="col" width="25px">STT</th>
           <th
             *ngFor="let column of columns"
             scope="col"
@@ -11,21 +11,45 @@
           >
             {{ column.label }}
           </th>
+          <th scope="col" width="70px">
+            <i class="material-icons cursor-pointer" (click)="reloadTable()"
+              >refresh</i
+            >
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let row of rows; let i = index">
-          <td data-label="STT" width="10px" [class]="i % 2 == 1 ? 'gray' : ''">
-            {{ i + 1 }}
+          <td data-label="STT" width="25px" [class]="i % 2 == 1 ? 'gray' : ''">
+            {{ pageSize * (activePage - 1) + i + 1 }}
           </td>
           <td
             *ngFor="let column of columns"
-            cl
             [attr.data-label]="column.label"
             [width]="column.width || 1"
             [class]="i % 2 == 1 ? 'gray' : ''"
           >
             {{ row[column.field] }}
+          </td>
+          <td width="70px" [class]="i % 2 == 1 ? 'gray' : ''">
+            <i
+              class="material-icons hover cursor-pointer mr-5"
+              style="color: seagreen"
+              (click)="viewRow(row)"
+              >remove_red_eye</i
+            >
+            <i
+              class="material-icons hover cursor-pointer mr-5"
+              style="color: #1976d2"
+              (click)="editRow(row)"
+              >edit</i
+            >
+            <i
+              class="material-icons hover cursor-pointer"
+              style="color: red"
+              (click)="removeRow(row)"
+              >delete_sweep</i
+            >
           </td>
         </tr>
       </tbody>

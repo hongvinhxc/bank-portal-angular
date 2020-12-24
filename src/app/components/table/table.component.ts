@@ -4,10 +4,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'my-datatable',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-
   @Input() columns: Array<Column>;
   @Input() isLoading: boolean;
   @Input() rows: Array<Object>;
@@ -18,10 +17,28 @@ export class TableComponent implements OnInit {
   @Input() pageSizeOptions: Array<number>;
 
   @Output() onLoad = new EventEmitter();
+  @Output() onViewRow = new EventEmitter();
+  @Output() onEditRow = new EventEmitter();
+  @Output() onRemoveRow = new EventEmitter();
+  @Output() onReload = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  viewRow(event) {
+    this.onViewRow.emit(event);
   }
 
+  editRow(event) {
+    this.onEditRow.emit(event);
+  }
+
+  removeRow(event) {
+    this.onRemoveRow.emit(event);
+  }
+
+  reloadTable() {
+    this.onReload.emit();
+  }
 }

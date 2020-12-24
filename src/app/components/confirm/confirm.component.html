@@ -1,0 +1,13 @@
+<div *ngIf="show" class="confirm">
+    <div class="confirm-content">
+      <div class="container">
+        <h1>Delete Account</h1>
+        <p>Are you sure you want to delete account number {{account.account_number}}?</p>
+
+        <div class="clearfix">
+          <button class="button cancelbtn" (click)="closeModal()">Cancel</button>
+          <button class="button deletebtn" (click)="yesDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+</div>
