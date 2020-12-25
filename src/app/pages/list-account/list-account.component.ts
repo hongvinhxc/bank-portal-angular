@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Account } from 'src/app/models/account.model';
 import { Column } from 'src/app/models/column.model';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -69,7 +70,7 @@ export class ListAccountComponent implements OnInit {
   ];
   isLoading = false;
   keywordChangedLoading = false;
-  data: Array<object> = [];
+  data: Array<Account> = [];
   page = 1;
   total = 0;
   mode = 'paging';
@@ -168,7 +169,7 @@ export class ListAccountComponent implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
         this.closeModal();
-        this.reloadTable();
+        this.updateTable(data.data);
       });
   }
 
@@ -179,8 +180,35 @@ export class ListAccountComponent implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
         this.closeConfirmDelete();
-        this.reloadTable();
+        this.deletedAccount(id);
       });
+  }
+
+  updateTable(data) {
+    if (this.mode == 'scroll') {
+      this.replaceNewData(data);
+    } else {
+      this.reloadTable();
+    }
+  }
+
+  replaceNewData(data) {
+    let newData = this.data.map((row) => {
+      if (row._id == data._id) {
+        return data;
+      }
+      return row;
+    });
+    this.data = newData;
+  }
+
+  deletedAccount(id) {
+    if (this.mode == 'scroll') {
+      let newData = this.data.filter((row) => row._id != id);
+      this.data = newData;
+    } else {
+      this.reloadTable();
+    }
   }
 
   onSave(formData) {
@@ -220,14 +248,16 @@ export class ListAccountComponent implements OnInit {
 
   reloadTable() {
     if (this.mode == 'scroll') {
-      this.oldKeyword = "" + Date.now();
+      this.oldKeyword = '' + Date.now();
+      this.getAccounts(1, this.pageSize);
+    } else {
+      this.getAccounts(this.page, this.pageSize);
     }
-    this.getAccounts(this.page, this.pageSize);
   }
 
   onSearch(e) {
     if (this.mode == 'scroll' && this.keyword == e.value) {
-      this.oldKeyword = "" + Date.now();
+      this.oldKeyword = '' + Date.now();
     }
     this.keyword = e.value;
     this.getAccounts(1, this.pageSize);
